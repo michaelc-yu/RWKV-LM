@@ -13,8 +13,8 @@
 MODEL_TYPE="x060" # x060 => rwkv-6.0
 # MODEL_TYPE="mamba" # pip install mamba_ssm --upgrade
 #
-N_LAYER="12"
-N_EMBD="768"
+N_LAYER="6"
+N_EMBD="256"
 #
 CTX_LEN="512" # !!! change magic_prime if you change ctx_len !!!
 PROJ_DIR="out/L"$N_LAYER"-D"$N_EMBD"-"$MODEL_TYPE # set output folder
