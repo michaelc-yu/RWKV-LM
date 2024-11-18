@@ -3,11 +3,11 @@ import os
 os.environ["RWKV_JIT_ON"] = "1"
 os.environ["RWKV_CUDA_ON"] = "0"
 
-from rwkv_model import RWKV
+from rwkv.model import RWKV
 from rwkv.utils import PIPELINE, PIPELINE_ARGS
 from rwkv.rwkv_tokenizer import TRIE_TOKENIZER
 
-model = RWKV(model="out/sudoku_rwkv.pth", strategy="cuda fp16", verbose=False)
+model = RWKV(model="out/L12-D768-x060/rwkv-0.pth", strategy="cuda fp16", verbose=False)
 pipeline = PIPELINE(model, "rwkv_vocab_v20230424")
 pipeline.tokenizer = TRIE_TOKENIZER("sudoku_vocab.txt")
 gen_args = PIPELINE_ARGS(top_k=1, alpha_frequency=0, alpha_presence=0, token_stop=[105])
