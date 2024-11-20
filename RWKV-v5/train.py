@@ -267,6 +267,7 @@ if __name__ == "__main__":
     #     max_position_embeddings=args.ctx_len # Match context length
     # )
     # model = GPT2LMHeadModel(config=gpt_config)
+    # # we can also do n_embd=args.n_embd, n_layer = args.n_layer
     # ***
 
 

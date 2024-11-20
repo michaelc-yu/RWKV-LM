@@ -21,6 +21,7 @@ N_EMBD="256"
 #
 CTX_LEN="512" # !!! change magic_prime if you change ctx_len !!!
 PROJ_DIR="out/L"$N_LAYER"-D"$N_EMBD"-"$MODEL_TYPE # set output folder
+# PROJ_DIR="out/transformer"
 #
 #######################################################################################################################
 #
