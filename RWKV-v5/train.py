@@ -256,6 +256,20 @@ if __name__ == "__main__":
     from src.model import RWKV
     model = RWKV(args)
 
+    # ***
+    # from transformers import GPT2LMHeadModel, GPT2Config
+
+    # gpt_config = GPT2Config(
+    #     vocab_size=args.vocab_size,        # Match vocab size from your dataset
+    #     n_embd=256,                       # Embedding size (match RWKV if desired)
+    #     n_layer=6,                        # Number of transformer layers
+    #     n_head=8,                         # Number of attention heads
+    #     max_position_embeddings=args.ctx_len # Match context length
+    # )
+    # model = GPT2LMHeadModel(config=gpt_config)
+    # ***
+
+
     if len(args.load_model) == 0 or args.my_pile_stage == 1:  # shall we build the initial weights?
         init_weight_name = f"{args.proj_dir}/rwkv-init.pth"
         generate_init_weight(model, init_weight_name)  # save initial weights

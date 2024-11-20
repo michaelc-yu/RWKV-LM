@@ -7,6 +7,8 @@ from rwkv.model import RWKV
 from rwkv.utils import PIPELINE, PIPELINE_ARGS
 from rwkv.rwkv_tokenizer import TRIE_TOKENIZER
 
+# L6-D256-x060
+# L12-D768-x060
 model = RWKV(model="out/L12-D768-x060/rwkv-0.pth", strategy="cuda fp16", verbose=False)
 pipeline = PIPELINE(model, "rwkv_vocab_v20230424")
 pipeline.tokenizer = TRIE_TOKENIZER("sudoku_vocab.txt")
