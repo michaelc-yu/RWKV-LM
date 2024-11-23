@@ -3,7 +3,8 @@ import os
 os.environ["RWKV_JIT_ON"] = "1"
 os.environ["RWKV_CUDA_ON"] = "0"
 
-from rwkv.model import RWKV
+from rwkv_model import RWKV
+# from rwkv.model import RWKV # models trained with the original RWKV-LM repo
 from rwkv.utils import PIPELINE, PIPELINE_ARGS
 from rwkv.rwkv_tokenizer import TRIE_TOKENIZER
 

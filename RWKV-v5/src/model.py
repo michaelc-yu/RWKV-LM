@@ -402,6 +402,8 @@ class RWKV_Tmix_x060(MyModule):
         ww = torch.tanh(xw @ self.time_decay_w1) @ self.time_decay_w2
         w = self.time_decay + ww
 
+        k = k * torch.clamp(w, max=0).exp()  # added this line
+
         x = RUN_CUDA_RWKV6(r, k, v, w, u=self.time_faaaa)
 
         x = x.view(B * T, C)        
