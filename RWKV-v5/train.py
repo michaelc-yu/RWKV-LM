@@ -261,13 +261,12 @@ if __name__ == "__main__":
 
     # gpt_config = GPT2Config(
     #     vocab_size=args.vocab_size,        # Match vocab size from your dataset
-    #     n_embd=256,                       # Embedding size (match RWKV if desired)
-    #     n_layer=6,                        # Number of transformer layers
-    #     n_head=8,                         # Number of attention heads
+    #     n_embd=args.n_embd,                # Embedding size (match RWKV if desired)
+    #     n_layer=args.n_layer,              # Number of transformer layers
+    #     n_head=8,                          # Number of attention heads
     #     max_position_embeddings=args.ctx_len # Match context length
     # )
     # model = GPT2LMHeadModel(config=gpt_config)
-    # # we can also do n_embd=args.n_embd, n_layer = args.n_layer
     # ***
 
 
@@ -277,6 +276,11 @@ if __name__ == "__main__":
         args.load_model = init_weight_name
 
     rank_zero_info(f"########## Loading {args.load_model}... ##########")
+    ### change stuff below
+    print("#### GOT HERE ####")
+    # This code snippet is handling the loading of a model checkpoint in PyTorch 
+    # while addressing specific naming inconsistencies in the checkpoint and 
+    # providing fallback mechanisms if the checkpoint loading fails.
     try:
         load_dict = torch.load(args.load_model, map_location="cpu")
         load_keys = list(load_dict.keys())
@@ -296,6 +300,7 @@ if __name__ == "__main__":
             rank_zero_info(f"Trying {args.load_model}")
             load_dict = torch.load(args.load_model, map_location="cpu")
 
+    print("#### AFTER TRY EXCEPT BLOCK")
     state_file = f"{args.proj_dir}/rwkv-init-state.pth"
     if os.path.isfile(state_file):
         rank_zero_info(f"########## Loading State {state_file}... ##########")
@@ -311,16 +316,19 @@ if __name__ == "__main__":
     model.load_state_dict(load_dict)
 
     if pl.__version__[0]=='2':
+        print("#### pl version = 2 ####")
         trainer = Trainer(accelerator=args.accelerator,strategy=args.strategy,devices=args.devices,num_nodes=args.num_nodes,precision=args.precision,
         logger=args.logger,callbacks=[train_callback(args)],max_epochs=args.max_epochs,check_val_every_n_epoch=args.check_val_every_n_epoch,num_sanity_val_steps=args.num_sanity_val_steps,
         log_every_n_steps=args.log_every_n_steps,enable_checkpointing=args.enable_checkpointing,accumulate_grad_batches=args.accumulate_grad_batches,gradient_clip_val=args.gradient_clip_val)
     else:
+        print("#### pl version NOT 2 ####")
         trainer = Trainer.from_argparse_args(
             args,
             callbacks=[train_callback(args)],
         )
 
     if trainer.global_rank == 0:
+        print("#### trainer global rank = 0 ####")
         for n in model.state_dict():
             shape = model.state_dict()[n].shape
             shape = [i for i in shape if i != 1]

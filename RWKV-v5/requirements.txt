@@ -4,3 +4,4 @@ deepspeed
 pybind11
 wandb
 rwkv
+transformers
