@@ -34,4 +34,4 @@ python train.py --wandb "" --proj_dir $PROJ_DIR \
  --epoch_save 1 --weight_decay 0 --head_size_a 64 \
  --num_nodes 1 --micro_bsz 1 --n_layer $N_LAYER --n_embd $N_EMBD --pre_ffn 0 --head_qk 0 --my_exit_tokens 1498226207 --magic_prime 491 \
  --lr_init 1e-5 --lr_final 1e-5 --warmup_steps 10 --beta1 0.9 --beta2 0.99 --adam_eps 1e-8 --my_pile_edecay 0 \
- --accelerator cpu --devices 1 --precision bf16 --strategy deepspeed_stage_2 --grad_cp 1
+ --accelerator gpu --devices 1 --precision bf16 --strategy deepspeed_stage_2 --grad_cp 1
