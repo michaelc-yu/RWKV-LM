@@ -31,19 +31,44 @@ input_str = '''<input>
 </input>
 
 '''
-import pandas as pd
 
 # Read the CSV file
-df = pd.read_csv("/Users/bosonphoton/rmkv/easy100.csv")
+df = pd.read_csv("easy100.csv")
+
+df["easy_answers"] = df["easy_answers"].str.replace("<input>", "<output>").str.replace("</input>", "</output>")
 
 # Display the first few rows of the DataFrame
 print(df)
 
-all_samples = [] # array of 100 input strings
+print(df['easy_questions'][0])
+print(df['easy_answers'][0])
 
+def run_inference(input_str):
+    print(f'{" Model input ":-^100}\n{input_str}\n{" Model output ":-^100}')
 
-for i in range(100):
-    print(f'{" Model input ":-^100}\n{all_samples[i]}\n{" Model output ":-^100}')
-    pipeline.generate(all_samples[i], token_count=50000, args=gen_args, callback=lambda x: print(x, end="", flush=True))
+    output = pipeline.generate(
+        input_str,
+        token_count=50000,
+        args=gen_args,
+        callback=lambda x: x  # Replace with the appropriate callback for your model
+    )
+    return output.strip()
+
+correct_count = 0
+
+for index, row in df.iterrows():
+    question = row["easy_questions"]
+    correct_answer = row["easy_answers"]
+
+    model_output = run_inference(question)
+    if model_output == correct_answer:
+        correct_count += 1
+        print(f"Puzzle {index + 1}: Correct ✅")
+    else:
+        print(f"Puzzle {index + 1}: Incorrect ❌")
+        print(f"Expected:\n{correct_answer}\n")
+        print(f"Model Output:\n{model_output}\n")
+
+print(f"\nTotal Correct Solutions: {correct_count} / {len(df)}")
 
 
