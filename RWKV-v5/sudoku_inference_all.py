@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 
 os.environ["RWKV_JIT_ON"] = "1"
 os.environ["RWKV_CUDA_ON"] = "0"
@@ -30,8 +31,16 @@ input_str = '''<input>
 </input>
 
 '''
+import pandas as pd
+
+# Read the CSV file
+df = pd.read_csv("/Users/bosonphoton/rmkv/easy100.csv")
+
+# Display the first few rows of the DataFrame
+print(df)
 
 all_samples = [] # array of 100 input strings
+
 
 for i in range(100):
     print(f'{" Model input ":-^100}\n{all_samples[i]}\n{" Model output ":-^100}')
